@@ -33,8 +33,9 @@
         /* border: 1px black solid; */
     }
     body{
-        background-color: #0C5500;
+        background-color: #f6f6f6;
         font-family: Helvetica;
+        color: #122C34;
     }
     .navbar{
         padding-bottom:2rem;
@@ -95,7 +96,7 @@
     height: 4px;
     width: 100%;
     border-radius: 10px;
-    background: #f6f6f6;
+    background: #122C34;
     }
 
     .nav-container .hamburger-lines .line1 {
@@ -132,14 +133,13 @@
     top: 13px;
     right: 35px;
     font-size: 1.5rem;
-    color: #f6f6f6;
+
     }
     .studentName {
         position: absolute;
         top: 13px;
         left: 70px;
         font-size: 1rem;
-        color: #f6f6f6;
     }
 
     .nav-container input[type="checkbox"]:checked ~ .menu-items {
@@ -174,7 +174,8 @@
     }
 
     .schedulearea table {
-        background-color: #f6f6f6;
+        background-color:#122C34;
+        color: #f6f6f6;
     }
 
     .schedulearea table th {
@@ -216,12 +217,12 @@
                 <h1>EC</h1>
             </div>
             <div class="menu-items">
-                <a style="color: #f6f6f6" href="/siafinals/logout.php">Logout</a>
+                <a style="color: #122C34" href="/siafinals/logout.php">Logout</a>
             </div>
             </div>
         </div>
         <div class="schedheader">
-                <h1 style="color: #f6f6f6;">Schedule</h1>
+                <h1 style="color: #122C34;">Schedule</h1>
             </div>
         <section class="schedulearea">
             <div class="tableheader">
