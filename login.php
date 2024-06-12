@@ -27,7 +27,7 @@
         $userId = $user['id']; // Access the user's ID from the associative array
 
         if ($accountType == 'patient') {
-            header("Location: /siafinals/patient.php?user=$username&id=$userId");
+            header("Location: /siafinals/home.php?user=$username&id=$userId");
         } else if ($accountType == 'doctor') {
             header("Location: /siafinals/doctor.php?user=$username&id=$userId");
         }

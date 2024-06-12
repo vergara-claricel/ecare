@@ -10,7 +10,7 @@
     // after register
 
     if (isset($_POST['register'])){
-        $account_type = $_POST['accType'];
+        $account_type = $_POST['account_type'];
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $birthdate = $_POST['birthdate'];
@@ -20,8 +20,10 @@
         
         $konek ->query("INSERT INTO `users` (`account_type`, `first_name`, `last_name`, `birthdate`, `email_address`, `username`, `password`) VALUES ('$account_type', '$first_name', '$last_name', '$birthdate', '$email', '$username', '$password')");
         header ('location: /siafinals/login.php');
+    }else{
+        ini_set('error_reporting', E_ALL);
+        ini_set('display_errors', true);
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -117,6 +119,12 @@
         <div class="formcontainer">
             <h2>Patient Account Registration Form</h2>
             <form id="registrationForm" method="post">
+                <div class="form-group">
+                    <label for="account_type">I am a:</label>
+                    <select name="account_type">
+                        <option value="patient" name="patient">patient</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="last_name">Last Name:</label>
                     <input type="text" id="last_name" name="last_name" required>

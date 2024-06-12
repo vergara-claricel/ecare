@@ -1,7 +1,5 @@
 <?php
-// require 'dashboard.php';
 
-  
   $hostname = 'localhost';
   $username = 'root';
   $password = '';
@@ -9,18 +7,26 @@
 
 // connect to db
   $konek = mysqli_connect($hostname, $username, $password, $dbname);
-// get from db
-    $result = $konek->query("SELECT * from `patients` ORDER BY patients.appointment_date, patients.time");
 
+    $result = $konek->query("SELECT * from `users`, `patients` WHERE users.id = patients.id AND patients.id={$_GET['id']} ORDER BY patients.appointment_date, patients.time");
+
+// name persistence?? so malipat-lipat w/o error
     if(isset($_GET['user'])){
         $username = $_GET['user'];
+        $userId = $_GET['id'];
         $queryname = $konek -> query("SELECT `last_name`, `first_name` FROM `users` where `username` = '$username';");
         $rowname = $queryname->fetch_assoc();
+
+        if(!isset($_SESSION['first_name']) && !isset($_SESSION['last_name'])){
+            $_SESSION['first_name'] = $rowname['first_name'];
+            $_SESSION['last_name'] = $rowname['last_name'];
+        }
     }
 
-    if (isset($_GET['delete'])){
-        $konek->query ("DELETE FROM `patients` WHERE patients.patient_id = {$_GET['delete']}");
-    }
+    
+
+    $firstname = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : '';
+    $lastname = isset($_SESSION['last_name']) ? $_SESSION['last_name'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -28,21 +34,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard</title>
+    <title>Patient Dashboard</title>
 </head>
 <style>
-    *{
+        *{
         padding: 0;
         margin: 0;
         /* border: 1px black solid; */
     }
     body{
-        background-color: #f6f6f6;
+        background-color: #122C34;
         font-family: Helvetica;
-        color: #122C34;
     }
     .navbar{
         padding-bottom:2rem;
+
     }
 
     .nav-container {
@@ -67,8 +73,8 @@
     .nav-container {
     display: block;
     position: relative;
-    height: 70px;
-    background-color: #122C34;
+    height: 65px;
+    background-color: #f6f6f6;
     }
 
     .nav-container .checkbox {
@@ -101,7 +107,7 @@
     height: 4px;
     width: 100%;
     border-radius: 10px;
-    background: #f0f0f0;;
+    background: #122C34;
     }
 
     .nav-container .hamburger-lines .line1 {
@@ -119,8 +125,8 @@
     }
 
     .navbar .menu-items {
-    padding-top: 55px;
-    height: 4rem;
+    padding-top: 60px;
+    height: 5.5rem;
     width: 10%;
     transform: translate(-150%);
     display: flex;
@@ -135,17 +141,17 @@
 
     .title {
     position: absolute;
-    top: 4px;
+    top: 9px;
     right: 35px;
-    font-size: 1.5rem;
-    color: #f6f6f6;
+    font-size: 1.2rem;
+    color: #122C34;
     }
-    .studentName {
-        position: absolute;
-        top: 13px;
-        left: 70px;
-        font-size: 1rem;
+
+    .patientName {
+        /* font-size: 1rem; */
         color: #f6f6f6;
+        margin-left: 200px;
+        padding-bottom: 1rem;
     }
 
     .nav-container input[type="checkbox"]:checked ~ .menu-items {
@@ -163,64 +169,52 @@
     .nav-container input[type="checkbox"]:checked ~ .hamburger-lines .line3 {
     transform: rotate(-45deg);
     }
-
+    
+    
     .parent-container{
         display:flex;
         flex-direction:column;
-        gap:0;
     }
 
-    .schedulearea{
-        display:flex;
-        flex-direction: column;
-        align-items:center;
-        gap:1rem;
-        padding-top: 1rem;
-        padding-bottom: 2rem;
-    }
-
-    .schedulearea table {
-        background-color:#122C34;
-        color: #f6f6f6;
-        border-radius: 8px;
-        border: 2px solid black;
-        box-shadow: 0 0 5px black;
-    }
-
-    .schedulearea table th {
-        width: 200px;
-        height: 50px;
-    }
-
-    .schedulearea table td {
-        width: 200px;
-        height: 50px;
-        text-align: center;
-    }
-
-    .schedheader h1{
-        font-size: 36px;
-        text-align: left;
-        margin: 1rem;
-        margin-left: 8rem;
-    }
-
-    .delete{
+    .newapptbutton a {
         display: inline-block;
-        color: black;
-        padding: 6px;
+        color: white;
+        padding: 11px;
         text-decoration:none;
         text-align: center;
-        background-color: red;
+        background-color: #49C3DD;
         border-radius: 10px;
-        border:none;
+        align-items: center;
     }
 
-    .delete:hover{
-        background-color: gray;
-        font-weight: bold;
-        color:red;
+    .newapptbutton a:hover{
+        background-color:blue;
+        color: #f6f6f6;
     }
+
+    .doctor{
+        background-color: #f6f6f6;
+        margin-left: 200px;
+        margin-right: 200px;
+        padding: 2rem;
+        border-radius: 8px;
+        display:flex;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    img{
+        width: 300px;
+        height: 300px;
+    }
+
+    .d2{
+        display:flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+
 
 
 </style>
@@ -234,49 +228,35 @@
                 <span class="line line2"></span>
                 <span class="line line3"></span>
                 </div>
-            <div class="studentName">
-                <h1>hello, <?php echo $rowname['first_name'] . " " . $rowname['last_name'];?></h1>
-            </div> 
             <div class="title">
                 <h1>EC</h1>
             </div>
             <div class="menu-items">
+                <!-- <a style="color: #f6f6f6" href="#">Schedule</a> -->
+                <a style="color: #122C34" href="/siafinals/patient.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Dashboard</a>
                 <a style="color: #122C34" href="/siafinals/logout.php">Logout</a>
             </div>
             </div>
         </div>
-        <div class="schedheader">
-                <h1 style="color: #122C34;">Your Appointments</h1>
-            </div>
-        <section class="schedulearea">
-            <div class="tableheader">
-                <table>
-                    <th>Appointment Date</th>
-                    <th>Time</th>
-                    <th>Patient Name</th>
-                    <th>Purpose of Appointment</th>
-                    <th>Action</th>
-                </table>
+
+            <div class="patientName">
+                <h2>hello, <?php echo $firstname . " ". $lastname ?>!</h2>
+            </div>    
+
+            <div class="doctor">
+                        <div class="d2">
+                            <h4>Meet our doctor</h4>
+                            <h2 style="color: #49C3DD">Dr. John Smith, M.D.</h2>
+                            <p>A trusted healthcare professional dedicated to your well-being. With a wealth of experience and a caring approach, Dr. John Smith is here to provide you with expert medical care and support. Feel confident in the hands of a skilled physician who prioritizes your health and comfort above all else.</p>
+                            <div class="newapptbutton">
+                            <a href="/siafinals/newapp.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Book an Appointment</a>
+                            </div>
+                        </div>
+                        <div class="img">
+                            <img src="docimh.png" alt="Doctor John">
+                        </div>
             </div>
 
-            <div class="schedtable">
-                <table>
-                <tbody>
-                <?php
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $row['appointment_date'] . "</td>";
-                                echo "<td>" . $row['time'] . "</td>";
-                                echo "<td>" . $row['first_name'] ." " . $row['last_name'] . "</td>";
-                                echo "<td>" . $row['purpose'] . "</td>";
-                                echo "<td> <a href='doctor.php?delete=" . $row['patient_id'] . "&user=" . $username . "' class='delete'>delete</a></td>";
-                                echo "</tr>";
-                            }
-                        ?>
-                </tbody>
-                </table>
-            </div>
-        </section>
     </div>
 </body>
 </html>

@@ -86,7 +86,8 @@
     .nav-container {
     display: block;
     position: relative;
-    height: 60px;
+    height: 65px;
+    background-color: #f6f6f6;
     }
 
     .nav-container .checkbox {
@@ -119,7 +120,7 @@
     height: 4px;
     width: 100%;
     border-radius: 10px;
-    background: #f6f6f6;
+    background: #122C34;
     }
 
     .nav-container .hamburger-lines .line1 {
@@ -138,7 +139,7 @@
 
     .navbar .menu-items {
     padding-top: 60px;
-    height: 3rem;
+    height: 5.5rem;
     width: 10%;
     transform: translate(-150%);
     display: flex;
@@ -148,15 +149,15 @@
     text-align: left;
     font-size: 1.5rem;
     font-weight: 500;
-    background-color: black;
+    background-color: #f6f6f6;
     }
 
     .title {
     position: absolute;
-    top: 13px;
+    top: 9px;
     right: 35px;
     font-size: 1.2rem;
-    color: #f6f6f6;
+    color: #122C34;
     }
 
     .patientName {
@@ -164,7 +165,7 @@
         top: 13px;
         left: 70px;
         font-size: 1rem;
-        color: #f6f6f6;
+        color: #122C34;
     }
 
     .nav-container input[type="checkbox"]:checked ~ .menu-items {
@@ -193,13 +194,16 @@
         display:flex;
         flex-direction: column;
         align-items:center;
-        gap:2rem;
+        gap:1rem;
         padding-top: 1rem;
         padding-bottom: 2rem;
     }
 
     .schedulearea table {
         background-color: #f6f6f6;
+        border-radius: 8px;
+        border: 2px solid gray;
+        box-shadow: 0 0 5px gray;
     }
 
     .schedulearea table th {
@@ -223,30 +227,24 @@
     }
 
     .schedheader h1{
-        font-size: 30px;
+        font-size: 32px;
         text-align: left;
         color: #f6f6f6;
     }
 
-    .newclassbutton a {
+    .newapptbutton a {
         display: inline-block;
         color: black;
         padding: 11px;
         text-decoration:none;
         text-align: center;
-        background-color: #FFE34E;
+        background-color: #49C3DD;
         border-radius: 10px;
     }
 
-    .edit {
-        display: inline-block;
-        color: black;
-        padding: 7px;
-        text-decoration:none;
-        text-align: center;
-        background-color: #70FD4D;
-        border-radius: 10px;
-        border: none;
+    .newapptbutton a:hover{
+        background-color:blue;
+        color: #f6f6f6;
     }
 
     .delete{
@@ -258,6 +256,12 @@
         background-color: red;
         border-radius: 10px;
         border:none;
+    }
+
+    .delete:hover{
+        background-color: gray;
+        font-weight: bold;
+        color:red;
     }
 </style>
 <body>
@@ -278,7 +282,8 @@
             </div>
             <div class="menu-items">
                 <!-- <a style="color: #f6f6f6" href="#">Schedule</a> -->
-                <a style="color: #f6f6f6" href="/siafinals/logout.php">Logout</a>
+                <a style="color: #122C34" href="/siafinals/home.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Home</a>
+                <a style="color: #122C34" href="/siafinals/logout.php">Logout</a>
             </div>
             </div>
         </div>
@@ -286,7 +291,7 @@
                 <div class="schedh1">
                     <h1>My Appointments</h1>
                 </div>
-                <div class="newclassbutton">
+                <div class="newapptbutton">
                     <a href="/siafinals/newapp.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">+ New Appointment</a>
                 </div>
             </div>

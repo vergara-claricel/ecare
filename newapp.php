@@ -9,6 +9,7 @@
 
     if(isset($_GET['user'])){
         $username = $_GET['user'];
+        $userId = $_GET['id'];
         $queryname = $konek -> query("SELECT `last_name`, `first_name` FROM `users` where `username` = '$username';");
         $rowname = $queryname->fetch_assoc();
 
@@ -64,10 +65,11 @@
             }
 
             .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 62px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 65px;
+                background-color: #f6f6f6;
             }
 
             .navbar .nav-container a {
@@ -80,12 +82,6 @@
 
             .navbar .nav-container a:hover{
                 font-weight: bolder;
-            }
-
-            .nav-container {
-            display: block;
-            position: relative;
-            height: 60px;
             }
 
             .nav-container .checkbox {
@@ -118,7 +114,7 @@
             height: 4px;
             width: 100%;
             border-radius: 10px;
-            background: #f6f6f6;
+            background: #122C34;
             }
 
             .nav-container .hamburger-lines .line1 {
@@ -137,7 +133,7 @@
 
             .navbar .menu-items {
             padding-top: 60px;
-            height: 3rem;
+            height: 5.5rem;
             width: 10%;
             transform: translate(-150%);
             display: flex;
@@ -147,22 +143,23 @@
             text-align: left;
             font-size: 1.5rem;
             font-weight: 500;
-            background-color: black;
+            background-color: #f6f6f6;
             }
 
             .title {
-            position: absolute;
-            top: 13px;
-            right: 15px;
-            font-size: 1.2rem;
-            color: #f6f6f6;
+                position: absolute;
+                top: 9px;
+                right: 35px;
+                font-size: 1.2rem;
+                color: #122C34;
             }
-            .teacherName {
+
+            .patientName {
                 position: absolute;
                 top: 13px;
                 left: 70px;
                 font-size: 1rem;
-                color: #f6f6f6;
+                color: #122C34;
             }
 
             .nav-container input[type="checkbox"]:checked ~ .menu-items {
@@ -188,7 +185,7 @@
 
             h2{
                 text-align:center;
-                color: #FFE34E;
+                color: #49C3DD;
                 padding:1rem;
                 font-size: 25pt;
             }
@@ -229,7 +226,7 @@
             }
             
             .bookappt{
-            background-color: #FFE34E;
+            background-color: #49C3DD;
             font-size: 16px;
             /* display:flex;
             justify-content:center;
@@ -238,6 +235,11 @@
             font-weight: bold;
             width:11rem;
             height:3rem;
+            }
+            .bookappt:hover{
+                font-weight: bold;
+                background-color: blue;
+                color: #f6f6f6;
             }
 
 
@@ -253,15 +255,15 @@
                     <span class="line line2"></span>
                     <span class="line line3"></span>
                     </div>
-                <div class="teacherName">
+                <div class="patientName">
                     <h1>hello, <?php echo $first_name . " ". $last_name ?></h1>
                 </div> 
                 <div class="title">
-                    <h1>MPOW</h1>
+                    <h1>EC</h1>
                 </div>
                 <div class="menu-items">
-                    <!-- <a style="color: #f6f6f6" href="#">Schedule</a> -->
-                    <a style="color: #f6f6f6" href="/webfinals/logout.php">Logout</a>
+                    <a style="color: #122C34" href="/siafinals/home.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Home</a>
+                    <a style="color: #122C34;" href="/siafinals/logout.php">Logout</a>
                 </div>
                 </div>
             </div>
