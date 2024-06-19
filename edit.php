@@ -7,11 +7,14 @@
     // connect to db
     $konek = mysqli_connect($hostname, $username, $password, $dbname);
 
+
     if(isset($_GET['user'])){
         $username = $_GET['user'];
         $userId = $_GET['id'];
         $queryname = $konek -> query("SELECT `last_name`, `first_name` FROM `users` where `username` = '$username';");
         $rowname = $queryname->fetch_assoc();
+        $kwery = $konek -> query ("SELECT * FROM `patients` where `patient_id` = $userId");
+        $deets = $kwery->fetch_assoc();
 
         if(!isset($_SESSION['first_name']) && !isset($_SESSION['last_name'])){
             $_SESSION['first_name'] = $rowname['first_name'];
@@ -22,27 +25,17 @@
     $first_name = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : '';
     $last_name = isset($_SESSION['last_name']) ? $_SESSION['last_name'] : '';
 
-    if(isset($_POST['bookappt'])){
-        $appointment_date = $_POST['appointment_date'];
-        $time = $_POST['appointment_time'];
-        $last_name = $_POST['last_name'];
-        $first_name = $_POST['first_name'];
-        $gender = $_POST['gender'];
-        $birthdate = $_POST['birthdate'];
-        $contact_num = $_POST['contact_num'];
-        $address = $_POST['address'];
-        $purpose = $_POST['purpose'];
-        $userId = $_GET['id'];
-        $appointment_status = 'Pending';
 
-        $sql1 = $konek->query("INSERT INTO patients (`appointment_date`, `time`, `first_name`, `last_name`, `gender`, `birthdate`, `contact_num`, `address`, `purpose`, `id`) VALUES ('$appointment_date','$time', '$first_name', '$last_name', '$gender', '$birthdate', '$contact_num', '$address', '$purpose', '$userId')");
+    if(isset($_POST['update'])){
+        $appointment_status = $_POST['appointment_status'];
 
-        if ($sql1){
-            header("location: /siafinals/patient.php?user=$username&id=$userId");
+        $updatekweri = $konek -> query("UPDATE `patients` SET `appointment_status` = '$appointment_status' WHERE patient_id = $userId");
+
+
+        if ($updatekweri){
+            header("Location: /siafinals/doctor.php?user=$username&id=$userId");
         }
     }
-
-
     ?>
 
 
@@ -51,7 +44,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>New Appointment</title>
+        <title>Edit Appointment</title>
     </head>
     <style>
             *{
@@ -188,7 +181,7 @@
 
             h2{
                 text-align:center;
-                color: #49C3DD;
+                color: greenyellow;
                 padding:1rem;
                 font-size: 25pt;
             }
@@ -245,7 +238,39 @@
                 color: #f6f6f6;
             }
 
+            .detailsbox{
+                background-color: #f6f6f6;
+                margin-left:250px;
+                margin-right:250px;
+                padding: 1rem;
+                border-radius: 10px;
+                box-shadow: 0 0 5px white;  
+            }
 
+            .details{
+                display: flex;
+                margin:8px;
+                margin-left:80px;
+                margin-right: 80px;
+                padding:1rem;
+                justify-content: space-between;
+            }
+
+            #update{
+                background-color: greenyellow;
+                padding:13px;
+                font-size: 14px;
+                border-radius:10px;
+                border: none;
+                float: right;
+                margin-right: 100px;  
+            } 
+
+            #update:hover{
+                background-color:gray;
+                color: greenyellow;
+                font-weight: bold;
+            }
 
         </style>
     <body>
@@ -265,40 +290,51 @@
                     <h1>EC</h1>
                 </div>
                 <div class="menu-items">
-                    <a style="color: #122C34" href="/siafinals/home.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Home</a>
+                    <a style="color: #122C34" href="/siafinals/doctor.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Dashboard</a>
                     <a style="color: #122C34;" href="/siafinals/logout.php">Logout</a>
                 </div>
                 </div>
             </div>
-            <h2> New Appointment </h2>
-            <form method="POST" class="formarea">
-            <label for="appointment_date">Appointment Date</label>
-            <input type="date" name="appointment_date" required/>
-            <label for="appointment_time">Appointment Time</label>
-            <input type="time" name="appointment_time" required/>
-            <label for="last_name">Patient Last Name</label>
-            <input type="text" name="last_name" required/>
-            <label for="first_name">Patient First Name</label>
-            <input type="text" name="first_name" required/>
-            <label for="gender">Gender</label>
-            <select name="gender" required>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-            <label for="birthdate">Patient Birthdate</label>
-            <input type="date" name="birthdate" required/>
-            <label for="first_name">Contact Number</label>
-            <input type="number" name="contact_num" required/>
-            <label for="address">Address</label>
-            <textarea name="address" rows="4" required></textarea>
-            <label for="purpose">Purpose of Appointment</label>
-            <textarea name="purpose" rows="4" required></textarea>
 
-            <div class="buttons">
-            <input type="submit" name="bookappt" value="Book Appointment" class="bookappt">
+            <h2>Edit Appointment No. <?php echo $deets['patient_id']?> </h2> 
+
+            <div class="detailsbox">
+                <div class="details">
+                <h3>Appointment Schedule: </h3>
+                <p><?php echo $deets['appointment_date'] . ' ' . $deets['time'];?></p>
+                </div>
+                <div class="details">
+                <h3>Name:</h3>
+                <p><?php echo $deets['first_name'] . ' ' . $deets['last_name'];?></p>
+                </div>
+                <div class="details">
+                <h3>Contact No.:</h3>
+                <p><?php echo $deets['contact_num'];?></p>
+                </div>
+                <div class="details">
+                <h3>Address:</h3>
+                <p><?php echo $deets['address'];?></p>
+                </div>
+                <div class="details">
+                <h3>Purpose:</h3>
+                <p><?php echo $deets['purpose'];?></p>
+                </div>
+                <div class="details">
+                <h3>Appointment Status:</h3>
+                <form method="post">
+                <select name="appointment_status" id="appointment_status">
+                    <option value="Confirmed" <?php if($deets['appointment_status'] == 'Confirmed') echo 'selected'; ?>>Confirmed</option>
+                    <option value="Pending" <?php if($deets['appointment_status'] == 'Pending') echo 'selected'; ?>>Pending</option>
+                    <option value="Cancelled" <?php if($deets['appointment_status'] == 'Cancelled') echo 'selected'; ?>>Cancelled</option>
+                </select>
+            
+                </div>
+                <button type="submit" name="update" id="update">Update</button>
+                </form>
             </div>
-        </form>
+
+
+            
     </div>
     </body>
     </html>

@@ -29,6 +29,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard</title>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"> -->
 </head>
 <style>
     *{
@@ -222,6 +225,40 @@
         color:red;
     }
 
+    .edit{
+        display: inline-block;
+        color: black;
+        padding: 6px;
+        text-decoration:none;
+        text-align: center;
+        background-color: greenyellow;
+        border-radius: 10px;
+        border:none;
+    }
+
+    .edit:hover{
+        background-color: gray;
+        font-weight: bold;
+        color:greenyellow;
+    }
+
+    .view{
+        display: inline-block;
+        color: black;
+        padding: 6px;
+        text-decoration:none;
+        text-align: center;
+        background-color: blue;
+        border-radius: 10px;
+        border:none;
+    }
+
+    .view:hover{
+        background-color: gray;
+        font-weight: bold;
+        color:blue;
+    }
+
 
 </style>
 <body>
@@ -254,7 +291,7 @@
                     <th>Appointment Date</th>
                     <th>Time</th>
                     <th>Patient Name</th>
-                    <th>Purpose of Appointment</th>
+                    <th>Appointment Status</th>
                     <th>Action</th>
                 </table>
             </div>
@@ -268,15 +305,55 @@
                                 echo "<td>" . $row['appointment_date'] . "</td>";
                                 echo "<td>" . $row['time'] . "</td>";
                                 echo "<td>" . $row['first_name'] ." " . $row['last_name'] . "</td>";
-                                echo "<td>" . $row['purpose'] . "</td>";
-                                echo "<td> <a href='doctor.php?delete=" . $row['patient_id'] . "&user=" . $username . "' class='delete'>delete</a></td>";
+                                echo "<td>" . $row['appointment_status'] . "</td>";
+                                echo "<td> 
+                                    <a href='view.php?id=" . $row['patient_id'] . "&user=" . $username . "' data-toggle='modal' data-target='#myModal' class='view'>View</a></option>
+                                    <a href='edit.php?id=" . $row['patient_id'] . "&user=" . $username . "' class='edit'>Edit</a></option>
+                                    <a href='doctor.php?delete=" . $row['patient_id'] . "&user=" . $username . "' class='delete'>Delete</a>
+                                   </td>"; 
+                            
                                 echo "</tr>";
                             }
                         ?>
                 </tbody>
                 </table>
             </div>
+            
         </section>
     </div>
+
+    <!-- Trigger the modal with a button -->
+<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+
+<!-- Modal
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <script>
+        jQuery(document).ready(function() {
+            jQuery('.view').click(function() {
+                jQuery('#myModal').modal('show');
+            });
+        });
+   
+    </script> -->
+
 </body>
 </html>

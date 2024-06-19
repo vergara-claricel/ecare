@@ -251,6 +251,9 @@
                             <div class="newapptbutton">
                             <a href="/siafinals/newapp.php?user=<?php echo $username; ?>&id=<?php echo $userId?>">Book an Appointment</a>
                             </div>
+                            <h4>Contact Us</h4>
+                            <p style="font-size:11pt;">09999999999 / 0912345678912</p>
+                            <p style="font-size:11pt;">admin@email.com</p>
                         </div>
                         <div class="img">
                             <img src="docimh.png" alt="Doctor John">

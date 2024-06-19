@@ -302,6 +302,7 @@
                     <th>Appointment Date</th>
                     <th>Time</th>
                     <th>Purpose of Appointment</th>
+                    <th>Appointment Status</th>
                     <th>Action</th>
                 </table>
             </div>
@@ -317,6 +318,8 @@
                                 echo "<td>" . $row['appointment_date'] . "</td>";
                                 echo "<td>" . $row['time'] . "</td>";
                                 echo "<td>" . $row['purpose'] . "</td>";
+                                echo "<td>" . $row['appointment_status'] . "</td>";
+
                                 echo "<td> <a href='patient.php?delete=" . $row['patient_id'] . "&user=" . $username . "&id=" . $userId . "' class='delete'>delete</a></td>";
                                 echo "</tr>";
                             }

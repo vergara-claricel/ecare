@@ -78,7 +78,7 @@
         }
         .form-group{
             margin-bottom: 20px;
-            position: relative:
+            position: relative;
         }
         label{
             display:block;
