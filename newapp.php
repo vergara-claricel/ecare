@@ -13,20 +13,14 @@
         $queryname = $konek -> query("SELECT `last_name`, `first_name` FROM `users` where `username` = '$username';");
         $rowname = $queryname->fetch_assoc();
 
-        if(!isset($_SESSION['first_name']) && !isset($_SESSION['last_name'])){
-            $_SESSION['first_name'] = $rowname['first_name'];
-            $_SESSION['last_name'] = $rowname['last_name'];
-        }
     }
 
-    $first_name = isset($_SESSION['first_name']) ? $_SESSION['first_name'] : '';
-    $last_name = isset($_SESSION['last_name']) ? $_SESSION['last_name'] : '';
 
     if(isset($_POST['bookappt'])){
         $appointment_date = $_POST['appointment_date'];
         $time = $_POST['appointment_time'];
-        $last_name = $_POST['last_name'];
-        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_namez'];
+        $first_name = $_POST['first_namez'];
         $gender = $_POST['gender'];
         $birthdate = $_POST['birthdate'];
         $contact_num = $_POST['contact_num'];
@@ -35,9 +29,14 @@
         $userId = $_GET['id'];
         $appointment_status = 'Pending';
 
-        $sql1 = $konek->query("INSERT INTO patients (`appointment_date`, `time`, `first_name`, `last_name`, `gender`, `birthdate`, `contact_num`, `address`, `purpose`, `id`) VALUES ('$appointment_date','$time', '$first_name', '$last_name', '$gender', '$birthdate', '$contact_num', '$address', '$purpose', '$userId')");
+        $sql2 = $konek->query("SELECT `appointment_date`, `time` FROM patients WHERE `appointment_date` = '$appointment_date' AND `time` = '$time'");
+        $appCheck = $sql2->fetch_assoc();
+        $isUnavailable = false;
 
-        if ($sql1){
+        if ($sql2->num_rows > 0){
+            echo '<script>alert("Date and time are unavailable!");</script>';
+        } else{
+            $sql1 = $konek->query("INSERT INTO patients (`appointment_date`, `time`, `first_name`, `last_name`, `gender`, `birthdate`, `contact_num`, `address`, `purpose`, `id`) VALUES ('$appointment_date','$time', '$first_name', '$last_name', '$gender', '$birthdate', '$contact_num', '$address', '$purpose', '$userId')");
             header("location: /siafinals/patient.php?user=$username&id=$userId");
         }
     }
@@ -259,7 +258,7 @@
                     <span class="line line3"></span>
                     </div>
                 <div class="patientName">
-                    <h1>hello, <?php echo $first_name . " ". $last_name ?></h1>
+                    <h1>hello, <?php echo $rowname['first_name'] . " ". $rowname['last_name']; ?></h1>
                 </div> 
                 <div class="title">
                     <h1>EC</h1>
@@ -276,10 +275,10 @@
             <input type="date" name="appointment_date" required/>
             <label for="appointment_time">Appointment Time</label>
             <input type="time" name="appointment_time" required/>
-            <label for="last_name">Patient Last Name</label>
-            <input type="text" name="last_name" required/>
-            <label for="first_name">Patient First Name</label>
-            <input type="text" name="first_name" required/>
+            <label for="last_namez">Patient Last Name</label>
+            <input type="text" name="last_namez" required/>
+            <label for="first_namez">Patient First Name</label>
+            <input type="text" name="first_namez" required/>
             <label for="gender">Gender</label>
             <select name="gender" required>
                 <option value="Male">Male</option>
@@ -300,5 +299,6 @@
             </div>
         </form>
     </div>
+    
     </body>
     </html>

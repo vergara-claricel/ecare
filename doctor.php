@@ -217,6 +217,7 @@
         background-color: red;
         border-radius: 10px;
         border:none;
+        color: white;
     }
 
     .delete:hover{
@@ -234,6 +235,7 @@
         background-color: greenyellow;
         border-radius: 10px;
         border:none;
+        color: white;
     }
 
     .edit:hover{
@@ -251,6 +253,7 @@
         background-color: blue;
         border-radius: 10px;
         border:none;
+        color: white;
     }
 
     .view:hover{
@@ -307,7 +310,7 @@
                                 echo "<td>" . $row['first_name'] ." " . $row['last_name'] . "</td>";
                                 echo "<td>" . $row['appointment_status'] . "</td>";
                                 echo "<td> 
-                                    <a href='view.php?id=" . $row['patient_id'] . "&user=" . $username . "' data-toggle='modal' data-target='#myModal' class='view'>View</a></option>
+                                    <a href='view.php?id=" . $row['patient_id'] . "&user=" . $username . "' class='view'>View</a></option>
                                     <a href='edit.php?id=" . $row['patient_id'] . "&user=" . $username . "' class='edit'>Edit</a></option>
                                     <a href='doctor.php?delete=" . $row['patient_id'] . "&user=" . $username . "' class='delete'>Delete</a>
                                    </td>"; 

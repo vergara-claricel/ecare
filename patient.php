@@ -219,11 +219,11 @@
 
     .schedheader{
         display:flex;
-        margin-left: 8rem;
-        margin-right: 8rem;
+        margin-left: 7rem;
+        margin-right: 7rem;
         margin-top:2rem;
         justify-content: center;
-        gap: 26rem;
+        gap: 30rem;
     }
 
     .schedheader h1{
@@ -263,6 +263,12 @@
         font-weight: bold;
         color:red;
     }
+
+    .namez{
+        /* text-decoration:none; */
+        color: black;
+    }
+
 </style>
 <body>
     <div class="parent-container">
@@ -314,7 +320,7 @@
                             foreach ($result as $row) {
                                 echo "<tr>";
                                 echo "<td style = 'display:none;'>" . $row['patient_id'] . "</td>";
-                                echo "<td>" . $row['first_name'] . " " . $row['last_name'] . "</td>";
+                                echo "<td> <a class='namez' title='Click to view details!' href='view.php?id=" . $row['patient_id'] . "&user=" . $username . "'>" . $row['first_name'] . " " . $row['last_name'] . "</a> </td>";
                                 echo "<td>" . $row['appointment_date'] . "</td>";
                                 echo "<td>" . $row['time'] . "</td>";
                                 echo "<td>" . $row['purpose'] . "</td>";
